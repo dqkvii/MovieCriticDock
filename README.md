@@ -82,9 +82,19 @@ Aby uruchomić w tle:
   docker compose up --build -d
   ```
 
+### 2b) Start kontenerów (alternatywnie: obrazy z Docker Hub)
+Jeśli nie chcesz budować obrazów lokalnie, możesz uruchomić projekt używając gotowych obrazów z Docker Hub:
+  ```bash
+  docker compose -f docker-compose.hub.yml up -d
+  ```
+
+> Uwaga: frontend jest serwowany jako statyczne pliki w Nginx, więc adres API (`VITE_API_BASE_URL`) jest “wbudowany” na etapie budowania obrazu frontendu.
+> Jeśli chcesz zmienić adres backendu, należy przebudować i ponownie opublikować obraz frontendu.
+
 ### 3) Dostęp do aplikacji
 - **Frontend:** http://localhost:3000
 - **Backend:** http://localhost:8080
+- **Healthcheck backendu:** http://localhost:8080/actuator/health
 - **MySQL (opcjonalnie, debug):** `localhost:3306`
 
 ---

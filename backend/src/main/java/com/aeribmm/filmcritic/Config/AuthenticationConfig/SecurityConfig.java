@@ -45,13 +45,21 @@ public class SecurityConfig {
                 .cors(withDefaults())
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("auth",
-                                         "users/register"
-                                        ,"/swagger-ui.html",
-                                            "v3/api-docs/**",
-                                         "v3/api-docs",
-                                         "/swagger-ui/**",
-                                    "movies/get-5").permitAll()
+                        .requestMatchers(
+                                "/auth/**",
+                                "/users/register",
+                                "/movies/get-5",
+                                "/swagger-ui.html",
+                                "/swagger-ui/**",
+                                "/v3/api-docs",
+                                "/v3/api-docs/**",
+
+                                "/actuator/health",
+                                "/actuator/health/**",
+                                "/actuator/info",
+
+                                "/error"
+                        ).permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
@@ -59,6 +67,7 @@ public class SecurityConfig {
                 )
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
     }
 }
