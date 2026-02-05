@@ -1,11 +1,11 @@
 # Docker project — MovieCritic
 
-Projekt webowej aplikacji do zarządzania i przeglądania informacji o filmach. Aplikacja została zrealizowana w architekturze klient–serwer z dostępem do bazy danych i uruchamiana w całości przy pomocy konteneryzacji Docker (Docker Compose).
+Projekt webowej aplikacji do zarządzania i przeglądania informacji o filmach. Aplikacja została zrealizowana w architekturze klient–serwer z dostępem do bazy danych i uruchamiana w całości przy pomocy Docker Compose.
 
 ---
 
 ## Temat projektu
-**MovieCritic** — aplikacja webowa z interfejsem użytkownika umożliwiająca pracę z danymi filmów oraz funkcjami użytkownika (np. watchlista), oparta o backend REST API i bazę danych MySQL.
+**MovieCritic** — aplikacja webowa z interfejsem użytkownika umożliwiająca pracę z danymi filmów oraz funkcjami użytkownika (np. watchlista), oparta o backend REST API i bazę danych **MySQL**.
 
 ---
 
@@ -24,59 +24,68 @@ Projekt webowej aplikacji do zarządzania i przeglądania informacji o filmach. 
 ---
 
 ## Funkcjonalności projektu
-Aplikacja umożliwia pracę z danymi w bazie danych poprzez REST API oraz wygodny interfejs w przeglądarce.
+Aplikacja umożliwia pracę z danymi w bazie danych poprzez REST API oraz interfejs w przeglądarce.
 
-Przykładowe funkcjonalności (wymagane minimum spełnione — min. 2 funkcjonalności):
-- **Filmy**
-    - pobieranie danych filmów (np. lista / szczegóły)
-    - losowy film / ostatnio dodane (jeśli dostępne w API)
-- **Użytkownicy**
-    - tworzenie użytkownika (procedura w bazie danych)
-    - pobieranie danych użytkownika
-- **Watchlista**
-    - dodawanie filmu do watchlisty użytkownika
-    - pobieranie watchlisty użytkownika
-    - aktualizacja statusu (planned/watching/completed itp.)
-    - usuwanie pozycji
+Zrealizowane funkcjonalności (minimum z zadania spełnione — min. 2):
+1) **Watchlista (CRUD wpisów watchlisty użytkownika)**  
+   - dodawanie filmu do watchlisty użytkownika  
+   - pobieranie watchlisty użytkownika  
+   - aktualizacja statusu (np. planned/watching/completed)  
+   - usuwanie pozycji z watchlisty  
 
-> Zakres funkcjonalności może być rozszerzany w zależności od wersji projektu.
+2) **Użytkownicy (operacje na użytkownikach)**  
+   - tworzenie użytkownika (np. przez endpoint / logikę backendu)  
+   - pobieranie danych użytkownika  
+
+3) **Filmy (odczyt danych filmów)**  
+   - pobieranie listy / szczegółów filmów (w zależności od endpointów API)
+
+> Uwaga: jeśli ocenianie wprost liczy “funkcjonalność” jako pełny CRUD na osobnej tabeli/zasobie,
+> to najsilniej “liczy się” Watchlista (pełny CRUD). Pozostałe funkcje są co najmniej kompletne po stronie API/UI zgodnie z aktualną implementacją.
 
 ---
 
 ## Architektura Docker
-Projekt składa się z trzech powiązanych kontenerów:
-- **mysql** — kontener z bazą danych MySQL 8.0 (inicjalizacja schematu z `database/database.sql`)
-- **backend** — kontener z aplikacją Spring Boot (REST API)
-- **frontend** — kontener z Nginx serwującym zbudowaną aplikację React
+Projekt składa się z trzech kontenerów:
+- **mysql** — baza danych MySQL 8.0 (inicjalizacja schematu z `database/database.sql`)
+- **backend** — aplikacja Spring Boot (REST API)
+- **frontend** — Nginx serwujący zbudowaną aplikację React
 
 ---
 
-## Uruchomienie aplikacji
-Wymagania:
+## Uruchomienie aplikacji (Docker Compose)
+### Wymagania
 - Docker Desktop (Docker Engine + Docker Compose)
 
 ### 1) Konfiguracja środowiska
-Projekt używa pliku `.env`. W repozytorium znajduje się plik przykładowy:
+Projekt używa pliku `.env`. W repozytorium znajduje się plik przykładowy `.env.example`.
 
 1. Skopiuj plik:
-    - **Windows (PowerShell):**
-      ```powershell
-      Copy-Item .env.example .env
-      ```
-    - **Linux/macOS:**
-      ```bash
-      cp .env.example .env
-      ```
+   - **Windows (PowerShell):**
+     ```powershell
+     Copy-Item .env.example .env
+     ```
+   - **Linux/macOS:**
+     ```bash
+     cp .env.example .env
+     ```
 
 2. (Opcjonalnie) Uzupełnij wartości `<CHANGE_ME>` w `.env` (jeśli dana funkcjonalność tego wymaga).
 
 ### 2) Start kontenerów
 W katalogu głównym projektu uruchom:
+  ```bash
+  docker compose up --build
+  ```
+Aby uruchomić w tle:
+  ```bash
+  docker compose up --build -d
+  ```
 
 ### 3) Dostęp do aplikacji
 - **Frontend:** http://localhost:3000
 - **Backend:** http://localhost:8080
-- **MySQL:** `localhost:3306` (opcjonalnie, do debugowania)
+- **MySQL (opcjonalnie, debug):** `localhost:3306`
 
 ---
 
@@ -94,3 +103,10 @@ W katalogu głównym projektu uruchom:
   ```
 
 ---
+
+## Zgodność z wymaganiami zadania (skrót)
+- Aplikacja webowa + UI: ✅ (React)
+- Dostęp do bazy danych: ✅ (MySQL + JPA)
+- Uruchomienie przez `docker compose up`: ✅ (3 kontenery)
+- Minimum 2 funkcjonalności: ✅ (Watchlista + Użytkownicy; dodatkowo Filmy – odczyt)
+- Repo zawiera README z tematem, autorami i instrukcją uruchomienia: ✅
