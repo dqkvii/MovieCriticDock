@@ -1,0 +1,48 @@
+# ===== Env files (keep example, ignore real) =====
+.env
+.env.local
+.env.*.local
+
+# Do NOT ignore this:
+!.env.example
+
+# ===== Java / Maven / Spring =====
+backend/target/
+*.class
+*.jar
+*.war
+*.ear
+hs_err_pid*
+
+# Keep Maven wrapper support
+# (do not ignore backend/.mvn/ if you want teammates to run ./mvnw reliably)
+# backend/.mvn/
+
+# ===== Node / Vite / React =====
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+node_modules/
+dist/
+
+# ===== Logs =====
+*.log
+database/*.log
+
+# ===== IDEs =====
+.idea/
+*.iml
+.vscode/
+*.ipr
+*.iws
+
+# ===== OS =====
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ===== Python =====
+__pycache__/
+*.py[cod]
+.venv/
+venv/
