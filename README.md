@@ -26,7 +26,7 @@ Projekt webowej aplikacji do zarządzania i przeglądania informacji o filmach. 
 ## Funkcjonalności projektu
 Aplikacja umożliwia pracę z danymi w bazie danych poprzez REST API oraz interfejs w przeglądarce.
 
-Zrealizowane funkcjonalności (minimum z zadania spełnione — min. 2):
+Zrealizowane funkcjonalności :
 1) **Watchlista (CRUD wpisów watchlisty użytkownika)**  
    - dodawanie filmu do watchlisty użytkownika  
    - pobieranie watchlisty użytkownika  
@@ -40,9 +40,6 @@ Zrealizowane funkcjonalności (minimum z zadania spełnione — min. 2):
 3) **Filmy (odczyt danych filmów)**  
    - pobieranie listy / szczegółów filmów (w zależności od endpointów API)
 
-> Uwaga: jeśli ocenianie wprost liczy “funkcjonalność” jako pełny CRUD na osobnej tabeli/zasobie,
-> to najsilniej “liczy się” Watchlista (pełny CRUD). Pozostałe funkcje są co najmniej kompletne po stronie API/UI zgodnie z aktualną implementacją.
-
 ---
 
 ## Architektura Docker
@@ -54,7 +51,6 @@ Projekt składa się z trzech kontenerów:
 ---
 
 ## Uruchomienie aplikacji (Docker Compose)
-### Wymagania
 - Docker Desktop (Docker Engine + Docker Compose)
 
 ### 1) Konfiguracja środowiska
@@ -70,17 +66,42 @@ Projekt używa pliku `.env`. W repozytorium znajduje się plik przykładowy `.en
      cp .env.example .env
      ```
 
-2. (Opcjonalnie) Uzupełnij wartości `<CHANGE_ME>` w `.env` (jeśli dana funkcjonalność tego wymaga).
+2.Uzupełnij wartości `<CHANGE_ME>` w `.env`.
+
+PORT=8080
+```
+SPRING.DATASOURCE.URL=jdbc:mysql://b0j1ffermfvmtrwyhcti-mysql.services.clever-cloud.com:3306/beiuugh9j96baskmwgfk?useSSL=false&serverTimezone=UTC
+SPRING.DATASOURCE.USERNAME=uwur7cu0drdtirmk
+SPRING.DATASOURCE.PASSWORD=rYVdesz9MyPNDvCB5hBh
+SPRING.DATASOURCE.DRIVER-CLASS-NAME=com.mysql.cj.jdbc.Driver
+
+SPRING_SECURITY_USER_NAME=aeribmm@gmail.com
+SPRING_SECURITY_USER_PASSWORD=55555
+
+JWT_SECRET=c7cb75cfb15d4484ff7d823e2800e919081adc904347c90f74855823db20656b5879829ff0364d331ebc43a4576fd65da30773ba847378cebadc216094f87ae9120ae9946706fc2ea7052a831d726350ab6bd47bb1554a7a4df74eadd72088ac4f49c4fa236b436778ca3aa129bfa19b135b2f8a07341e7080b17a7c71c0f35daa6d7367d043a6d46c0d202e03b00e0f4c76c05bb415047545e8ec8fb1c1303faf3ed1275d1457b4dde698618cc61005097419922a85d8e4c06f25a0467fd275f3e9e49c50008f5aff1ccc595ce7597c67fe77eb531a215339c8f448a6a44b3009ee20f8c9b0abbb80074f959cc71442876b93f29d75dd1a7f2ff78561ea4d48
+DEEPSEEK_KEY=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
+DEEPSEEK_API_URL=https://api.deepseek.com/v1/chat/completions
+OMDB_API_KEY=a3da22e4
+
+VITE_API_BASE_URL=http://localhost:8080
+
 
 ### 2) Start kontenerów
 W katalogu głównym projektu uruchom:
   ```bash
   docker compose up --build
   ```
+  ```
 Aby uruchomić w tle:
   ```bash
   docker compose up --build -d
   ```
+Żeby uruchomić aplikację należy skorzystać z komedny:
+
+```bash
+docker compose up
+```
+
 
 ### 2b) Start kontenerów (alternatywnie: obrazy z Docker Hub)
 Jeśli nie chcesz budować obrazów lokalnie, możesz uruchomić projekt używając gotowych obrazów z Docker Hub:
@@ -88,14 +109,10 @@ Jeśli nie chcesz budować obrazów lokalnie, możesz uruchomić projekt używaj
   docker compose -f docker-compose.hub.yml up -d
   ```
 
-> Uwaga: frontend jest serwowany jako statyczne pliki w Nginx, więc adres API (`VITE_API_BASE_URL`) jest “wbudowany” na etapie budowania obrazu frontendu.
-> Jeśli chcesz zmienić adres backendu, należy przebudować i ponownie opublikować obraz frontendu.
-
 ### 3) Dostęp do aplikacji
 - **Frontend:** http://localhost:3000
 - **Backend:** http://localhost:8080
 - **Healthcheck backendu:** http://localhost:8080/actuator/health
-- **MySQL (opcjonalnie, debug):** `localhost:3306`
 
 ---
 
@@ -113,10 +130,3 @@ Jeśli nie chcesz budować obrazów lokalnie, możesz uruchomić projekt używaj
   ```
 
 ---
-
-## Zgodność z wymaganiami zadania (skrót)
-- Aplikacja webowa + UI: ✅ (React)
-- Dostęp do bazy danych: ✅ (MySQL + JPA)
-- Uruchomienie przez `docker compose up`: ✅ (3 kontenery)
-- Minimum 2 funkcjonalności: ✅ (Watchlista + Użytkownicy; dodatkowo Filmy – odczyt)
-- Repo zawiera README z tematem, autorami i instrukcją uruchomienia: ✅
